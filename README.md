@@ -8,8 +8,7 @@ Project ini dikembangkan untuk mendukung gaya hidup bersih, sehat, dan modern.
 
 ## ✨ Fitur Utama
 - 🤖 **Buka tutup otomatis** menggunakan sensor ultrasonik + servo.  
-- 🚨 **Deteksi penuh** dengan sensor jarak / infra merah.  
-- 🔋 Hemat energi dengan mode standby.  
+- 🚨 **Deteksi penuh** dengan sensor jarak / infra merah.
 - 📱 Potensi integrasi dengan aplikasi IoT (notifikasi jika sampah penuh).  
 - 🧩 Desain modular dan mudah dikembangkan.  
 
@@ -32,6 +31,7 @@ Smart-Trash-Can-Code/
 Arduino / ESP32
 Sensor ultrasonik (HC-SR04)
 Servo motor (SG90 / MG996R)
+Jumper
 
 ## 📝 Lisensi
 Project ini menggunakan lisensi MIT – silakan gunakan, modifikasi, dan kembangkan dengan tetap mencantumkan kredit.
