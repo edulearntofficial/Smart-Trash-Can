@@ -15,23 +15,33 @@ void setup() {
   pinMode(TRIG_PIN, OUTPUT);
   pinMode(ECHO_PIN, INPUT);
   myServo.attach(SERVO_PIN);
-  myServo.write(0); // Tutup tutup tong sampah
+  myServo.write(0); // Tutup tong sampah di awal
   
   Serial.begin(9600);
+  Serial.println("Sistem Siap. Mengukur jarak...");
 }
 
 void loop() {
   int distance = getDistance();
 
+  // Tampilkan jarak selalu di serial monitor
+  if (distance > 0) {
+    Serial.print("Jarak terukur: ");
+    Serial.print(distance);
+    Serial.println(" cm");
+  } else {
+    Serial.println("Tidak ada objek terdeteksi.");
+  }
+
   if (distance > 0 && distance < distanceThreshold) {
-    // Jika jarak lebih kecil dari threshold, buka tutup
-    Serial.println("Objek terdeteksi. Membuka tutup.");
+    Serial.println("Objek dekat! Membuka tutup...");
     myServo.write(90); // Buka tutup
     delay(3000);       // Tunggu 3 detik
     myServo.write(0);  // Tutup kembali
+    delay(1000);       // Tambahkan delay supaya tidak langsung buka-tutup terus
   }
 
-  delay(100); // Tunggu sebentar sebelum membaca lagi
+  delay(300); // Delay kecil untuk stabilisasi sensor
 }
 
 // Fungsi untuk menghitung jarak
@@ -44,9 +54,14 @@ int getDistance() {
   digitalWrite(TRIG_PIN, LOW);
 
   // Baca sinyal ECHO
-  long duration = pulseIn(ECHO_PIN, HIGH);
+  long duration = pulseIn(ECHO_PIN, HIGH, 30000); // timeout 30 ms (≈5m jarak)
 
-  // Hitung jarak (kecepatan suara = 34300 cm/s)
+  if (duration == 0) {
+    // Jika tidak ada pantulan
+    return -1;
+  }
+
+  // Hitung jarak (kecepatan suara = 343 m/s = 0.034 cm/µs)
   int distance = duration * 0.034 / 2;
 
   return distance;
